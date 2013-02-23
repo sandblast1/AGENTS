@@ -37,36 +37,6 @@ public class Vol {
 	}
 	
 	
-	public List<VolClass> travelClasses(){
-		
-		List<VolClass> vc = new ArrayList<VolClass>();
-		
-		for(String s : TRAVEL_CLASSES){
-			
-			TravelClassEnum en = TravelClassEnum.ECONOMY_CLASS;
-			switch(s){
-			case "FIRST_CLASS":
-				en = TravelClassEnum.FIRST_CLASS;
-				break;
-			case "BUSINESS_CLASS":
-				en = TravelClassEnum.BUSINESS_CLASS;
-				break;
-			case "ECONOMY_CLASS":
-				en = TravelClassEnum.ECONOMY_CLASS;
-				break;
-			default:
-				break;			
-			}
-			
-			VolClass newVol; // construire avec le nombre de siège dispo (dans s ?) et travelclass = en
-			vc.add(newVol);
-			
-		}
-		return vc;
-		
-	}
-	
-	
 	//obtenir le prix du vol par siege dans une classe spécifique	
 	public double getTravelClassCost(TravelClassEnum t){
 		

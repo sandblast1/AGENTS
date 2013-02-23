@@ -1,11 +1,16 @@
 package projet;
 
 
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.List;
+
 import jade.core.Agent;
 import jade.core.AID;
 import jade.core.behaviours.*;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
+import jade.lang.acl.UnreadableException;
 import jade.domain.DFService;
 import jade.domain.FIPAException;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
@@ -49,7 +54,14 @@ public class CompagnieAgent extends Agent {
 			if(msg != null){
 				myAgent.write(myAgent.compagnie.compagnieName + " essaye de répondre à "+msg.getSender().getLocalName());
 				
-				//volsTrouvés = compagnie.getVolsCorrespondant (départ, déstination) ?
+				Route route = null;
+				try {
+					route = (Route) msg.getContentObject();
+				} catch (UnreadableException e) {
+					e.printStackTrace();
+				}
+				List<Vol> volsTrouves = myAgent.compagnie.getCorrespondingVols(route);
+				
 				
 				String title = msg.getContent();
 				ACLMessage reply = msg.createReply();
@@ -57,8 +69,12 @@ public class CompagnieAgent extends Agent {
 				reply.addReceiver(msg.getSender());
 				reply.setConversationId("OFFER");
 				
-				//myAgent.write(myAgent.compagnie.compagnieName + "envoie "+ volsTrouves.size()+" offres");
-				//reply.setContent(Utils.SerializeObject<List<VolWrapper>>(volTrouves));
+				myAgent.write(myAgent.compagnie.compagnieName + "envoie "+ volsTrouves.size()+" offres");
+				try {
+					reply.setContentObject((Serializable) volsTrouves);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 				myAgent.send(reply);
 				
 			}else{

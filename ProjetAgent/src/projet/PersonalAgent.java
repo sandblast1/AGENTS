@@ -1,6 +1,9 @@
 package projet;
 
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import projet.CompagnieAgent.RespondBehaviour;
@@ -77,14 +80,18 @@ public class PersonalAgent extends Agent {
     	
     	public void action(){
     		
-    		
+    		Route route = myAgent.userRequest.getUserRoute();
     		
     		for(AID receiverAid : myAgent.providerAgents){
     			MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.REQUEST); 
     			ACLMessage msg = myAgent.receive(mt);
     			msg.addReceiver(receiverAid);
     			msg.setConversationId("ASK");
-    			//msg.setContent
+    			try {
+					msg.setContentObject((Serializable) route);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
     			myAgent.send(msg);
     			
     		}
