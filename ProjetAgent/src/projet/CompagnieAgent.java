@@ -47,6 +47,7 @@ public class CompagnieAgent extends Agent {
 		public RespondBehaviour(CompagnieAgent a){ myAgent = a; }
 		
 		public void action() {
+			System.out.println("HELLO MY NAME IS "+myAgent.getName());
 			
 			MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.ACCEPT_PROPOSAL);
 			ACLMessage msg = myAgent.receive(mt);
